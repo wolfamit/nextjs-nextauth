@@ -16,7 +16,7 @@ import { redirect } from "next/navigation";
 import { connectToDatabase } from "@/lib/connecttodb";
 
 const page = () => {
-    const signUp = async (formData : any) => {
+    const signUp = async (formData : FormData) => {
         "use server" 
         const name = formData.get("name") as string | undefined;
         const email = formData.get("email") as string | undefined;

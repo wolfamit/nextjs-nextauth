@@ -10,9 +10,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { signIn } from "@/auth";
+import { CredentialsSignin } from "next-auth";
 
 
 const page = () => {
+  const loginHandler = async (formData : FormData) => {
+    "use server" 
+    const email = formData.get("email") as string | undefined;
+    const password = formData.get("password") as string | undefined;
+
+    if(!email || !password) throw new Error("PLease provide all the fiels");
+
+    try {
+      await  signIn('credentials', {
+        email,
+        password,
+        redirect : true,
+        redirectTo : '/'
+      })
+    } catch (error) {
+      const err = error as CredentialsSignin;
+      return err.message;
+    }
+  }
+
   return (
     <div className="relative">
       <div className=" bg-gray-100 flex justify-end items-center h-screen z-20">
@@ -28,10 +50,10 @@ const page = () => {
           </CardHeader>
           <CardContent>
             <form
-              action="submit"
+              action= {loginHandler}
               className="flex flex-col items-center space-y-4"
             >
-              <Input name="email" placeholder="email" />
+              <Input name="email" placeholder="john@gmail.com" />
               <Input name="password" placeholder="password" />
               <Button type="submit">Login</Button>
             </form>

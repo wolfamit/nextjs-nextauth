@@ -1,6 +1,29 @@
+import { auth } from "@/auth";
 import Image from "next/image";
 
-export default function Home() {
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
+
+export default async function  Home() {
+  "use client"
+
+  const session = await auth();
+  const user = session?.user as string | undefined;
+
+  console.log("sesssion -> home" , session);
+
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //     const session = await auth();
+  //     if (!session?.user) {
+  //       // Redirect to login page if user is not logged in
+  //       redirect('/login');
+  //     }
+  //   };
+
+  //   checkAuth();
+  // }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -109,5 +132,5 @@ export default function Home() {
         </a>
       </div>
     </main>
-  );
+  )
 }

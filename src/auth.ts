@@ -40,7 +40,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         return {name: user.name,email: user.email , id: user._id};
         
       },
-    })
-
+    }),
   ],
+  pages : {
+    signIn : '/login',
+  },
 })
